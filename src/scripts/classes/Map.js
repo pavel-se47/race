@@ -32,10 +32,10 @@ export default class Map {
   }
 
   createLayers() {
-    this.tilemap.createStaticLayer("grass", this.tileset);
-    this.tilemap.createStaticLayer("road", this.tileset);
-    this.tilemap.createStaticLayer("sand", this.tileset);
-    this.tilemap.createStaticLayer("ground", this.tileset);
+    this.tilemap.createLayer("grass", this.tileset);
+    this.tilemap.createLayer("road", this.tileset);
+    this.tilemap.createLayer("sand", this.tileset);
+    this.tilemap.createLayer("ground", this.tileset);
   }
 
   createCollision() {
