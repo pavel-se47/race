@@ -89,7 +89,7 @@ export default class GameScene extends Phaser.Scene {
           first: this.stats.time,
         });
         this.statsPopup.place.setText("Your Place: 1");
-      } else {
+      } else if (this.client) {
         this.statsPopup.place.setText("Your Place: 2");
       }
     }
