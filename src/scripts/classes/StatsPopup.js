@@ -25,12 +25,23 @@ export default class StatsPopup {
       .text(
         this.scene.cameras.main.centerX,
         this.scene.cameras.main.centerY - 200,
-        `Level Complete!`,
+        `Game Completed!`,
         { font: "46px Arial", fill: "#FAFAD2" }
       )
       .setOrigin(0.5)
       .setScrollFactor(0);
 
+    if (this.scene.client) {
+      this.place = this.scene.add
+        .text(
+          this.scene.cameras.main.centerX,
+          this.scene.cameras.main.centerY - 125,
+          `Your Place: 0`,
+          style
+        )
+        .setOrigin(0.5)
+        .setScrollFactor(0);
+    }
     this.time = this.scene.add
       .text(
         this.scene.cameras.main.centerX,

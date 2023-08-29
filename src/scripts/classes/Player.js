@@ -96,7 +96,7 @@ export default class Player {
       this.checkpoint = 1;
       this.car.emit("lap");
     } else if (checkpoint === this.checkpoint + 1) {
-      ++this.checkpoint;
+      this.checkpoint += 1;
     }
   }
 }

@@ -11,7 +11,17 @@ export default class Client extends Phaser.Events.EventEmitter {
   init() {
     this.sent = {};
     this.master = false;
+    this.firstPlayerFinish = 0;
     this.socket = io(HOST);
+
+    console.log(this.socket.fi);
+
+    this.socket.on("done", (data) => {
+      if (data && data.first) {
+        this.firstPlayerFinish = data.first;
+      }
+    });
+
     this.socket.on("connect", () => {
       console.log("client connected");
     });
@@ -34,5 +44,9 @@ export default class Client extends Phaser.Events.EventEmitter {
       this.sent = data;
       this.socket.emit("playerMove", data);
     }
+  }
+
+  finishTime(data) {
+    this.socket.emit("finish", data);
   }
 }

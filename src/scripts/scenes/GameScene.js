@@ -5,7 +5,7 @@ import Stats from "../classes/Stats";
 import StatsPanel from "../classes/StatsPanel";
 import StatsPopup from "../classes/StatsPopup";
 
-const LAPS = 3;
+const LAPS = 1;
 const CARS = {
   BLUE: {
     sprite: "car_blue_1",
@@ -84,6 +84,14 @@ export default class GameScene extends Phaser.Scene {
 
     if (this.stats.complete) {
       this.statsPopup = new StatsPopup(this, this.stats);
+      if (this.client && !this.client.firstPlayerFinish) {
+        this.client.finishTime({
+          first: this.stats.time,
+        });
+        this.statsPopup.place.setText("Your Place: 1");
+      } else {
+        this.statsPopup.place.setText("Your Place: 2");
+      }
     }
   }
 

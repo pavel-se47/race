@@ -3,11 +3,19 @@ const socketIO = require("socket.io");
 module.exports = {
   init(server) {
     this.sessions = [];
+    this.firstTime = 0;
     this.io = socketIO(server);
+
     this.io.on("connection", (socket) => {
       socket.on("playerMove", (data) => {
         this.onPlayerMove(socket, data);
       });
+
+      socket.on("finish", (data) => {
+        this.firstTime = data.first.toFixed(2);
+        this.io.emit("done", { first: this.firstTime });
+      });
+
       this.onConnection(socket);
     });
   },
