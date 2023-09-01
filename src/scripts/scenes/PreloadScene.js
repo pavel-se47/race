@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import LoadingBar from "../classes/LoadingBar";
 import tilesetPng from "../../assets/tileset.png";
 import tilemapJson from "../../assets/tilemap.json";
+import tilemapJsonNew from "../../assets/tilemapNew.json";
 import objectsPng from "../../assets/objects.png";
 import objectsJson from "../../assets/objects.json";
 
@@ -18,6 +19,7 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight: 64,
     });
     this.load.tilemapTiledJSON("tilemap", tilemapJson);
+    this.load.tilemapTiledJSON("tilemapNew", tilemapJsonNew);
     this.load.atlas("objects", objectsPng, objectsJson);
   }
 

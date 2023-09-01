@@ -12,9 +12,8 @@ export default class Client extends Phaser.Events.EventEmitter {
     this.sent = {};
     this.master = false;
     this.firstPlayerFinish = 0;
+    this.map = null;
     this.socket = io(HOST);
-
-    console.log(this.socket.fi);
 
     this.socket.on("done", (data) => {
       if (data && data.first) {
@@ -48,5 +47,10 @@ export default class Client extends Phaser.Events.EventEmitter {
 
   finishTime(data) {
     this.socket.emit("finish", data);
+  }
+
+  currentMap(data) {
+    this.map = data.map;
+    this.socket.emit("currentMap", data);
   }
 }

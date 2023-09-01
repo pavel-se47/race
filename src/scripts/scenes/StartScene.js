@@ -1,5 +1,3 @@
-import Client from "../classes/Client";
-
 export default class StartScene extends Phaser.Scene {
   constructor() {
     super("Start");
@@ -38,17 +36,15 @@ export default class StartScene extends Phaser.Scene {
   }
 
   setEvents() {
-    this.buttonSingle.on("pointerdown", this.startGame, this);
-    this.buttonMulti.on("pointerdown", this.requestGame, this);
+    this.buttonSingle.on("pointerdown", this.singleMode, this);
+    this.buttonMulti.on("pointerdown", this.multiMode, this);
   }
 
-  startGame() {
-    this.scene.start("Game", { client: this.client });
+  singleMode() {
+    this.scene.start("Map", { key: "singleMode" });
   }
 
-  requestGame() {
-    this.client = new Client();
-    this.client.init();
-    this.client.on("game", this.startGame, this);
+  multiMode() {
+    this.scene.start("Map", { key: "multiMode" });
   }
 }

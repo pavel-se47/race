@@ -20,6 +20,7 @@ const CARS = {
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super("Game");
+    this.chooseMap = null;
   }
 
   init(data) {
@@ -27,6 +28,10 @@ export default class GameScene extends Phaser.Scene {
       this.client = data.client;
     }
     this.cursors = this.input.keyboard.createCursorKeys();
+
+    if (data.map) {
+      this.chooseMap = data.map;
+    }
   }
 
   preload() {

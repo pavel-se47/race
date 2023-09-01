@@ -7,16 +7,22 @@ module.exports = {
     this.io = socketIO(server);
 
     this.io.on("connection", (socket) => {
-      socket.on("playerMove", (data) => {
-        this.onPlayerMove(socket, data);
-      });
-
       socket.on("finish", (data) => {
         this.firstTime = data.first.toFixed(2);
         this.io.emit("done", { first: this.firstTime });
       });
 
-      this.onConnection(socket);
+      socket.on("playerMove", (data) => {
+        this.onPlayerMove(socket, data);
+      });
+
+      socket.on("currentMap", (data) => {
+        this.onConnection(socket, data.map);
+      });
+
+      socket.on("error", (error) => {
+        console.error(`Connection error: ${error.message}`);
+      });
     });
   },
 
@@ -44,8 +50,16 @@ module.exports = {
     );
   },
 
-  createPendingSession(socket) {
-    const session = { playerSocket: socket, enemySocket: null };
+  getMap(map) {
+    return this.sessions.find((session) => session.map === map);
+  },
+
+  createPendingSession(socket, map) {
+    const session = {
+      playerSocket: socket,
+      enemySocket: null,
+      map: map,
+    };
     this.sessions.push(session);
   },
 
@@ -54,15 +68,17 @@ module.exports = {
     session.enemySocket.emit("gameStart");
   },
 
-  onConnection(socket) {
+  onConnection(socket, map) {
     console.log(`new user connected ${socket.id}`);
 
     let session = this.getPendingSession();
-    if (!session) {
-      this.createPendingSession(socket);
+    let sessionMap = this.getMap(map);
+
+    if (!session || !sessionMap) {
+      this.sessions = [];
+      this.createPendingSession(socket, map);
     } else {
       session.enemySocket = socket;
-
       this.startGame(session);
     }
   },

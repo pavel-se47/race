@@ -13,7 +13,12 @@ export default class Map {
   }
 
   init() {
-    this.tilemap = this.scene.make.tilemap({ key: "tilemap" });
+    if (this.scene.chooseMap === 1) {
+      this.tilemap = this.scene.make.tilemap({ key: "tilemap" });
+    } else if (this.scene.chooseMap === 2) {
+      this.tilemap = this.scene.make.tilemap({ key: "tilemapNew" });
+    }
+
     this.tileset = this.tilemap.addTilesetImage(
       "tileset",
       "tileset",
