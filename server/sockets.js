@@ -12,6 +12,16 @@ module.exports = {
         this.io.emit("done", { first: this.firstTime });
       });
 
+      socket.on("gameEnd", () => {
+        if (this.sessions.length >= 2) {
+          this.sessions.shift();
+        }
+      });
+
+      socket.on("clientDisconnect", () => {
+        this.sessions = [];
+      });
+
       socket.on("playerMove", (data) => {
         this.onPlayerMove(socket, data);
       });
@@ -75,7 +85,6 @@ module.exports = {
     let sessionMap = this.getMap(map);
 
     if (!session || !sessionMap) {
-      this.sessions = [];
       this.createPendingSession(socket, map);
     } else {
       session.enemySocket = socket;
